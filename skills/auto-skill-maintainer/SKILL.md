@@ -12,6 +12,7 @@ description: "当发现既有 workflow/测试写法不正确或缺失时：自�
 - 之前的测试写法/目录落点/配置方式是错误的或与仓库惯例冲突
 - 构建/测试链路存在“隐式知识”，导致后续容易重复踩坑
 - 为了跑通实验临时做了 workaround，但正确做法应固化为可复用 skill
+- 调试定位出新的常见失败模式/处置流程（例如 CI 资源约束导致的失败），而现有 skills 未覆盖该经验
 
 注意：该技能描述的是“必须做什么”，不代表运行环境会自动触发或自动执行。若工具侧不支持自动 hook，请在交付时明确说明已按本技能更新并提交。
 
@@ -31,6 +32,9 @@ description: "当发现既有 workflow/测试写法不正确或缺失时：自�
 3. 把新知识写进 skill 的 `skills/<skill-name>/SKILL.md`（覆盖占位内容），并再次提交：
    - `git add skills/<skill-name>/SKILL.md plugin.json`
    - `git commit -m 'harness: refine <skill-name>'`
+4. 若本次经验会影响多个技能（常见：pr-workflow + report-generator），要一次性更新完并在同一次提交中体现，避免知识分叉。
+5. 做最小验证，确保注册与格式正确：
+   - `python3 -m json.tool plugin.json >/dev/null`
 4. 如果需要推送（满足门禁）：
    - `HARNESS_AUTO_PUSH=1 python3 scripts/auto-skill.py ensure --name <skill-name> --description '<desc>' --push`
 
