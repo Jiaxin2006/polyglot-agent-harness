@@ -1,0 +1,17 @@
+{
+  "name": "polyglot-agent-harness",
+  "owner": {
+    "name": "local"
+  },
+  "metadata": {
+    "description": "Multi-IDE agent harness (Claude Code, Cursor, Trae, Codex)"
+  },
+  "plugins": [
+    {
+      "name": "polyglot-agent-harness",
+      "source": "./",
+      "description": "Experiment guard, PR workflow, and portable install for heterogeneous AI dev environments",
+      "version": "0.1.0"
+    }
+  ]
+}

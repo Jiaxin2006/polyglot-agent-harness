@@ -1,0 +1,17 @@
+{
+  "name": "polyglot-agent-harness",
+  "version": "0.1.0",
+  "description": "Portable AI engineering harness: skills, agents, and install hooks for Claude Code, Cursor, Trae, and Codex.",
+  "author": {
+    "name": "polyglot-agent-harness"
+  },
+  "keywords": [
+    "cursor",
+    "trae",
+    "claude-code",
+    "codex",
+    "skills",
+    "agents",
+    "dev-harness"
+  ]
+}

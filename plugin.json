@@ -1,0 +1,8 @@
+{
+  "name": "polyglot-agent-harness",
+  "description": "Portable harness — experiment guard, PR workflow, and multi-IDE install. Copy this tree into .claude/ or use claude --plugin-dir.",
+  "version": "0.1.0",
+  "commands": ["commands/verify.md"],
+  "agents": ["agents/code-reviewer.md", "agents/triager.md"],
+  "hooks": ["hooks/hooks.json"]
+}

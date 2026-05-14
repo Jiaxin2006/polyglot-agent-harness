@@ -1,0 +1,10 @@
+---
+description: Use AGENTS.md and skills/ as canonical harness instructions
+alwaysApply: true
+---
+
+# Polyglot agent harness (this repository)
+
+- Treat **`AGENTS.md`** at the repo root as the primary instruction set for agents.
+- Skill workflows live under **`skills/*/SKILL.md`**; prefer `experiment-guard` before risky git operations and `pr-workflow` when preparing delivery.
+- For per-tool installation (Trae symlinks, `.claude/` copy, Codex), read **`docs/PORTABILITY.md`**.
