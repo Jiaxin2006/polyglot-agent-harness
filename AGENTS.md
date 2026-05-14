@@ -17,8 +17,19 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 2. **Verification** — Prefer the same environment as CI (often Docker). Do not claim “tests pass” without running the project’s commands or explaining skips.
 3. **Delivery** — No `gh pr create`, force-push to shared branches, or destructive git without **explicit** user approval when policies require it.
 4. **Paths** — Never hardcode another user’s machine paths. Use `git rev-parse --show-toplevel` and env vars (`POLYGLOT_*`).
-5. **Reporting** — When a new E2E passes, a key bug is fixed, or a PR is being prepared, invoke `report-generator` and update the in-repo report files (evidence included).
+5. **Reporting** — When a run fails, a bug is found/fixed, or a PR is being prepared, invoke `report-generator` and update the in-repo report files (evidence included).
 6. **Skill maintenance** — When you discover a wrong/missing workflow (especially test authoring), invoke `auto-skill-maintainer` to update/add a skill and commit; push only when the configured gate allows.
+7. **Skill execution record** — If the current tool cannot “invoke skills” as a first-class feature, you must still follow the skill steps and explicitly state which skill is being applied and which checklist items were completed.
+
+## Pipeline (canonical)
+
+This is the default end-to-end pipeline for work in a consumer repo:
+
+1. **Start work (guardrails)** — Apply `experiment-guard` before experiments or risky git operations.
+2. **Work and triage** — Fix the issue, add/adjust tests, collect evidence.
+3. **Report update (mandatory)** — Apply `report-generator` whenever there is a run failure, bug discovery/fix, or PR prep.
+4. **Skill maintenance (conditional)** — If any “we should have had a workflow for this” moment happens, apply `auto-skill-maintainer` to update/add a skill and commit.
+5. **PR preparation** — Apply `pr-workflow`: scope the diff, verify, review accidental files, and (optionally) open the PR via `gh` when allowed.
 
 ## Skills (when to use)
 
