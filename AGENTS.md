@@ -17,6 +17,7 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 2. **Verification** — Prefer the same environment as CI (often Docker). Do not claim “tests pass” without running the project’s commands or explaining skips.
 3. **Delivery** — No `gh pr create`, force-push to shared branches, or destructive git without **explicit** user approval when policies require it.
 4. **Paths** — Never hardcode another user’s machine paths. Use `git rev-parse --show-toplevel` and env vars (`POLYGLOT_*`).
+5. **Reporting** — When a new E2E passes, a key bug is fixed, or a PR is being prepared, invoke `report-generator` and update the in-repo report files (evidence included).
 
 ## Skills (when to use)
 
@@ -25,6 +26,7 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 | `experiment-guard` | Starting substantive work: sync upstream, merge base branch, conflict stop, container verify |
 | `pr-workflow` | Preparing a PR: scope, tests, message, description, evidence |
 | `harness-overview` | Explaining how this harness maps to Cursor/Trae/Claude/Codex |
+| `report-generator` | New passing E2E, key bug fix, or PR prep: generate/update structured report with evidence |
 
 Skill bodies live in `skills/*/SKILL.md` (YAML frontmatter + markdown).
 

@@ -37,6 +37,10 @@ If your Claude Code install expects that flat format, merge the snippet into you
 | `hooks/` | Plugin lifecycle hooks |
 | `scripts/docker-check.py` | Docker daemon health check |
 
+## Reports
+
+When a new E2E passes, a key bug is fixed, or a PR is being prepared, use the `report-generator` skill and write in-repo reports under `reports/`.
+
 ## Install into another repo
 
 See `scripts/install-into-project.sh` or submodule this repository and symlink `skills/*` into `.trae/skills/` per your team’s convention.

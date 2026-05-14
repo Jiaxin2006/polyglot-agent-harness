@@ -4,5 +4,6 @@
   "version": "0.1.0",
   "commands": ["commands/verify.md"],
   "agents": ["agents/code-reviewer.md", "agents/triager.md"],
-  "hooks": ["hooks/hooks.json"]
+  "hooks": ["hooks/hooks.json"],
+  "skills": ["skills/report-generator/SKILL.md"]
 }
