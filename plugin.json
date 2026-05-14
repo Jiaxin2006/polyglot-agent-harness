@@ -5,5 +5,12 @@
   "commands": ["commands/verify.md"],
   "agents": ["agents/code-reviewer.md", "agents/triager.md"],
   "hooks": ["hooks/hooks.json"],
-  "skills": ["skills/report-generator/SKILL.md"]
+  "skills": [
+    "skills/experiment-guard/SKILL.md",
+    "skills/pr-workflow/SKILL.md",
+    "skills/harness-overview/SKILL.md",
+    "skills/report-generator/SKILL.md",
+    "skills/test-authoring/SKILL.md",
+    "skills/auto-skill-maintainer/SKILL.md"
+  ]
 }
