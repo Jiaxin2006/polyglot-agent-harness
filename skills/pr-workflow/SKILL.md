@@ -14,7 +14,8 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 ## Steps
 
 1. **Scope** — One logical change per PR when possible. Split unrelated edits.
-2. **Hygiene** — Run project formatters/linters/tests per `CONTRIBUTING.md` or `AGENTS.md`.
+2. **Sync upstream first** — Before finalizing the PR, fetch the upstream base branch and merge/rebase per project policy. Stop on conflicts and request human review (use `experiment-guard`).
+3. **Local verification** — Ensure local checks and tests pass in the same environment as CI (prefer Docker/DevContainer). Do not claim “ready” without runnable commands and evidence.
 3. **Commit messages** — Imperative subject line (~72 chars), body explains *why* when non-obvious.
 4. **Description template**
    - Summary (what / why)
