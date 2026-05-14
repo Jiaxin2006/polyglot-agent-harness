@@ -17,7 +17,7 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 2. **Verification** — Prefer the same environment as CI (often Docker). Do not claim “tests pass” without running the project’s commands or explaining skips.
 3. **Delivery** — No `gh pr create`, force-push to shared branches, or destructive git without **explicit** user approval when policies require it.
 4. **Paths** — Never hardcode another user’s machine paths. Use `git rev-parse --show-toplevel` and env vars (`POLYGLOT_*`).
-5. **Reporting** — When a run fails, a bug is found/fixed, or a PR is being prepared, invoke `report-generator` and update the in-repo report files (evidence included).
+5. **Reporting** — When a run fails, a bug is found/fixed, or a PR is being prepared, invoke `report-generator` and update local report artifacts (evidence included). Do not include `reports/` in upstream PRs unless the user explicitly requests it; keep reports untracked or in a fork-only branch.
 6. **Skill maintenance** — When you discover a wrong/missing workflow (especially test authoring), invoke `auto-skill-maintainer` to update/add a skill and commit; push only when the configured gate allows.
 7. **Skill execution record** — If the current tool cannot “invoke skills” as a first-class feature, you must still follow the skill steps and explicitly state which skill is being applied and which checklist items were completed.
 
