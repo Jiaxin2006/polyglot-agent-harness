@@ -58,3 +58,19 @@ Checklist:
 2. Prefer CI-safe behavior: disable writing large caches under `CI=1`, and/or allow an explicit kill-switch env (e.g. `AXBUILD_DISABLE_ROOTFS_CACHE=1`).
 3. Add a small unit test that proves the guardrail (e.g. “in CI, cache write is a no-op”).
 4. In the PR body, call out that the change prevents infra failures from blocking correctness tests.
+
+### RISC-V SBI return type mismatch (`SbiRet`)
+
+Typical symptom in logs:
+
+- `expected rustsbi::SbiRet, found sbi_rt::SbiRet` (or other crate-path variants)
+- Often shows up while building RISC-V virtualization code (e.g. Axvisor/riscv_vcpu)
+
+Checklist:
+
+1. Identify which trait is being implemented (commonly `rustsbi::Pmu` / other RustSBI traits).
+2. Ensure the impl method signatures use the trait’s `SbiRet` type consistently:
+   - Prefer `sbi_spec::binary::SbiRet` (the canonical type used by RustSBI traits), or explicitly use `rustsbi::SbiRet` which re-exports it.
+   - Avoid accidentally importing `sbi_rt::SbiRet` into the impl signature.
+3. Run a target-specific compile check and record it in the report:
+   - `cargo check -p riscv_vcpu --target riscv64gc-unknown-none-elf`
