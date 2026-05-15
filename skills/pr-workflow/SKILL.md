@@ -17,6 +17,7 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 1. **Scope** — One logical change per PR when possible. Split unrelated edits.
 2. **Sync upstream first** — Before finalizing the PR, fetch the upstream base branch and merge/rebase per project policy. Stop on conflicts and request human review (use `experiment-guard`).
 3. **Local verification** — Ensure local checks and tests pass in the same environment as CI (prefer Docker/DevContainer). Do not claim “ready” without runnable commands and evidence.
+   - For Rust repos, run formatting in check mode (CI frequently enforces this): `cargo fmt --all -- --check`
    - If CI failed due to infra/resource constraints (e.g. disk-full), add a targeted repro/guardrail (small test or assertion) and rerun the narrowest check that proves the fix.
 4. **Artifact inventory** — List newly created files/dirs and what they do. If any were experimental or unrelated, remove them from the branch (stash or separate PR).
 5. **Commit messages** — Imperative subject line (~72 chars), body explains *why* when non-obvious.
