@@ -25,7 +25,12 @@ description: "为 tgoskits/ArceOS/StarryOS 编写“可跑通、可维护、可�
 - 目录：`test-suit/arceos/rust/<topic>/`
 - 文件：
   - `Cargo.toml`：只放本测试需要的依赖；避免为了测试方便而启用“额外模块 feature”。
-  - `build-<target>.toml`：构建特性与 env（例如启用 `ax-std/backtrace`、设置 `BACKTRACE=y`）。
+  - `build-<target>.toml`：构建特性与 env。注意 `env` 是必填字段，至少要有一个空的 `[env]` 表，否则 axbuild 解析会报 `missing field env`。
+    - 推荐最小模板：
+      - `features = ["ax-std"]`
+      - `log = "Warn"`
+      - `max_cpu_num = 4`
+      - `[env]`
   - `qemu-<arch>.toml`：运行参数与 success/fail regex。
 - `main.rs` 最小约束：
   - 需要在 ArceOS 侧导出 `main`：`#[cfg_attr(feature = "ax-std", unsafe(no_mangle))] fn main() { ... }`
