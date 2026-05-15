@@ -113,6 +113,10 @@ description: "生成与维护结构化实验/修复报告（概述→环境→�
 - 处置：做了哪些修改（文件/思路即可）与对应 commit
 - 结果：哪条验证命令/哪条 CI 重跑能证明问题已缓解
 
+## 常见教训（必须记录到报告）
+
+- 如果修复触及 panic/oops/trap 路径：必须在报告中说明是否保留了递归/并发保护（例如 `enter_panic`/`enter_oops`/`oops_in_progress`/backtrace one-shot gate），避免引入“二次故障”。
+
 ## 质量门槛（必须满足）
 
 - 报告必须能“离线阅读后复现”：至少一套 build + run/test 命令

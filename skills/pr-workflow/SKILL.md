@@ -30,6 +30,14 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 9. **Upstream alignment** — Apply `experiment-guard` sync before final push unless user declined.
 10. **Automation** — If `gh` is available and user approved: `gh pr create` with filled title/body; otherwise write `pr-draft.md` with paste-ready content.
 
+## High-risk edits checklist
+
+If touching fatal paths (panic/oops/trap) or logging/console code:
+
+- Preserve existing recursion/concurrency guards (e.g. `axpanic::enter_panic`, `enter_oops`, `oops_in_progress`, backtrace one-shot gating).
+- Ensure only the primary fatal path emits heavy diagnostics (backtrace capture, formatting) to avoid recursive panics and lock re-entry.
+- Add at least a compile-level check in a representative target (`cargo check -p <crate> --target <triple>`) and record it in the report.
+
 ## Do not
 
 - Open or merge a PR without user confirmation when policy requires it.
