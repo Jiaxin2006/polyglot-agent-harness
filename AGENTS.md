@@ -21,6 +21,17 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 6. **Skill maintenance** — When you discover a wrong/missing workflow (especially test authoring), invoke `auto-skill-maintainer` to update/add a skill and commit; push only when the configured gate allows.
 7. **Skill execution record** — If the current tool cannot “invoke skills” as a first-class feature, you must still follow the skill steps and explicitly state which skill is being applied and which checklist items were completed.
 
+## Mandatory skill triggers (must)
+
+If you are about to do any of the following actions, you must apply the named skill first, and record “Applying <skill>” in the work log:
+
+- **Start risky work** (sync upstream, rebase/merge, conflict resolution, experiment that may dirty the tree) → `experiment-guard`
+- **Write or modify tests** (unit/e2e/config/regex assertions) → `test-authoring`
+- **Run failed / CI red / bug found or fixed** (including infra/resource failures like disk-full) → `report-generator`
+- **Prepare delivery** (open PR, declare “ready”, change scope/title/body) → `pr-workflow`
+- **Declare completion / 100% confidence** (user asks “done?” or you claim “fully correct”) → `completion-examiner`
+- **Workflow gap discovered** (a repeated pitfall not covered by existing skills) → `auto-skill-maintainer`
+
 ## Pipeline (canonical)
 
 This is the default end-to-end pipeline for work in a consumer repo:
