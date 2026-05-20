@@ -13,7 +13,13 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 
 ## Steps
 
-0. **Declare the workflow** — Explicitly state “Applying pr-workflow” and track completion items, especially in tools that cannot natively “invoke skills”. Before marking the PR ready, confirm this **blocking order** (do not skip or reorder):
+0. **Declare the workflow (visible, mandatory)** — The **first line** of every user-facing response while applying this skill MUST be exactly:
+
+   **`Applying pr-workflow`**
+
+   (or `Applying pr-workflow skill`). Subagents delegated PR or delivery work must declare which skill(s) they apply at the start of their **final summary** the same way (e.g. `Applying pr-workflow`, `Applying report-generator`). Do not bury the declaration mid-response or omit it when tools cannot natively “invoke skills”.
+
+   Then track completion items. Before marking the PR ready, confirm this **blocking order** (do not skip or reorder):
    - [ ] `cargo fmt --all -- --check` (exit 0)
    - [ ] Clippy with warnings denied
    - [ ] Unit/integration tests for touched crates
@@ -45,8 +51,8 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 5. **Artifact inventory** — List newly created files/dirs and what they do. If any were experimental or unrelated, remove them from the branch (stash or separate PR).
 6. **Commit messages** — Imperative subject line (~72 chars), body explains *why* when non-obvious.
 7. **Report update (mandatory)** — Invoke `report-generator` and update a report artifact for this change (default: local-only; do not include in upstream PR unless explicitly requested). PRs must not be opened with a stale/missing report when policy requires reporting.
-8. **Description template** — Always prepare paste-ready PR content for the user (see **Manual PR submission** below):
-   - **Title**: English, imperative, ~72 chars
+8. **Description template** — Always prepare paste-ready PR content for the user (see **Manual PR submission** and **PR title** below):
+   - **Title**: English, [Conventional Commits](#pr-title) format — `type(scope): imperative description`
    - **Body**: Chinese, with sections:
      - Summary (what / why)
      - Test plan (copy-paste commands + expected output; **exclude** `cargo fmt` / rustfmt — local gate only, unless user explicitly asks)
@@ -58,12 +64,30 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 10. **Upstream alignment** — Apply `experiment-guard` sync before final push unless user declined.
 11. **Prepare for submission (default: manual)** — Write the PR draft (English title + Chinese body per step 8) to a local file **outside** any git-tracked project directory (see **Manual PR submission**). The user tests locally and submits the PR manually on upstream. Do **not** run `gh pr create`, push for PR creation, or open a PR on the upstream/original repo unless the user explicitly asks.
 
+## PR title
+
+English PR titles must follow **Conventional Commits**: **`type(scope): imperative description`**
+
+| Part | Rules |
+|------|--------|
+| **type** | Same family as commit messages: `feat`, `fix`, `test`, `docs`, `refactor`, `ci`, `chore`, `perf`, etc. |
+| **scope** | Crate or area in parentheses — match what the PR actually touches, e.g. `axbuild`, `axbacktrace`, `starry-kernel` |
+| **description** | Lowercase imperative mood, ~72 chars total for the full title, **no period** at the end |
+
+Examples:
+
+- `feat(axbuild): stream host backtrace symbolize on block end`
+- `fix(axbuild): delete qemu log only after successful symbolize`
+- `test(arceos): add backtrace raw block e2e cases`
+
+Do **not** use bare scope prefixes like `axbuild: …` without a type.
+
 ## Manual PR submission (default policy)
 
 This is the default workflow unless the user explicitly requests automated PR creation.
 
 1. **Never open/create a PR on upstream directly** — Do not run `gh pr create`, do not push a branch for PR creation, and do not open a PR on the original/upstream repo. The user verifies locally first and submits manually.
-2. **Always prepare PR content** — Produce an English title and Chinese body (Summary, Test plan with commands + expected output — **no** `cargo fmt` / rustfmt lines unless the user explicitly asks, Risk, issue links) ready to paste when the user opens the PR.
+2. **Always prepare PR content** — Produce an English title ([Conventional Commits](#pr-title): `type(scope): imperative description`) and Chinese body (Summary, Test plan with commands + expected output — **no** `cargo fmt` / rustfmt lines unless the user explicitly asks, Risk, issue links) ready to paste when the user opens the PR.
 3. **Draft file location** — Save the draft **outside** the git repository (never inside project folders such as `tgoskits/`). Examples:
    - `/Users/hanjiaxin/Desktop/操作系统/pr-drafts/<repo-or-feature>-pr-draft.md`
    - Workspace root `操作系统/` is acceptable if it is not inside a git-tracked project folder
@@ -89,6 +113,8 @@ If touching fatal paths (panic/oops/trap) or logging/console code:
 
 ## Do not
 
+- Skip the visible skill declaration (`Applying pr-workflow` as the **first line** of the response, or at the start of a subagent final summary) when doing PR-prep or delivery work.
+- Use PR titles without a Conventional Commits type prefix (e.g. `axbuild: …` instead of `feat(axbuild): …`).
 - Open or create a PR on the upstream/original repo (no `gh pr create`, no push-for-PR) unless the user explicitly asks.
 - Place `pr-draft.md` or similar PR drafts inside a git-tracked project directory (e.g. `tgoskits/`).
 - Reference internal plan IDs (`PR-1`, `PR-4`, `TODO-2`, …) from local planning docs in upstream PR title or body — use neutral follow-up wording instead.

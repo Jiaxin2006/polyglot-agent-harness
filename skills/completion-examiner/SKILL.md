@@ -40,7 +40,7 @@ description: "以考官视角做“任务是否完成”审计：列出验收标
 6. **交付门禁（宣称“完成”前必过）**
    - 必须按 `pr-workflow` 的 **blocking order** 逐项通过：`cargo fmt --all -- --check` → clippy（warnings denied）→ 所改 crate 的单元/集成测试 → E2E（含可复制命令与期望输出）
    - **fmt 是本地验证门禁**，须在交付前跑通，但 **不得** 写入 PR 草稿 Test plan/正文（除非用户明确要求）；E2E/clippy/单元测试命令与期望输出才进入 Test plan
-   - 宣称完成或准备交付时，**必须同时触发** `pr-workflow`（PR 草稿、手动提交策略）与 `report-generator`（本地报告更新）
+   - 宣称完成或准备交付时，**必须同时触发** `pr-workflow`（PR 草稿、手动提交策略）与 `report-generator`（本地报告更新）；子 agent 在最终总结开头须声明所应用的 skill（如 `Applying pr-workflow`），见 `pr-workflow` step 0
    - 未通过 fmt 或任一 blocking gate 时，不得宣称“100% 完成”或“PR ready”
 
 ## 交付格式（必须包含）
