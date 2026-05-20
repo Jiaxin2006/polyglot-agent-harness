@@ -49,7 +49,7 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
    - Example (ArceOS backtrace): `cargo xtask arceos test qemu --arch x86_64 --test-case backtrace-raw-normal` → expect `BACKTRACE_BEGIN` … `BT 0`/`BT 1` with non-zero `ip`, then `=== host backtrace symbolize ===` with demangled function names (when auto-symbolize is enabled).
    - Tell the author explicitly how to run locally and what “green” looks like before opening the PR; if E2E is impossible (hardware-only), document a reproducible substitute and get reviewer agreement in the PR body.
 5. **Artifact inventory** — List newly created files/dirs and what they do. If any were experimental or unrelated, remove them from the branch (stash or separate PR).
-6. **Commit messages** — Imperative subject line (~72 chars), body explains *why* when non-obvious.
+6. **Commit messages** — Imperative subject line (~72 chars), body explains *why* when non-obvious. Do **not** add `Co-authored-by:`, `Co-Authored-By:`, or other co-author attribution trailers unless the user explicitly requests them.
 7. **Report update (mandatory)** — Invoke `report-generator` and update a report artifact for this change (default: local-only; do not include in upstream PR unless explicitly requested). PRs must not be opened with a stale/missing report when policy requires reporting.
 8. **Description template** — Always prepare paste-ready PR content for the user (see **Manual PR submission** and **PR title** below):
    - **Title**: English, [Conventional Commits](#pr-title) format — `type(scope): imperative description`
@@ -91,7 +91,7 @@ This is the default workflow unless the user explicitly requests automated PR cr
 3. **Draft file location** — Save the draft **outside** the git repository (never inside project folders such as `tgoskits/`). Examples:
    - `/Users/hanjiaxin/Desktop/操作系统/pr-drafts/<repo-or-feature>-pr-draft.md`
    - Workspace root `操作系统/` is acceptable if it is not inside a git-tracked project folder
-4. **Agent may still prepare the branch** — Commits and local verification are fine; stop before upstream push/PR unless explicitly requested. **Mandatory before any upstream-bound commit or “ready” message:** `cargo fmt --all -- --check` must pass; if not, run `cargo fmt --all`, re-check, and include the diff in the same commit.
+4. **Agent may still prepare the branch** — Commits and local verification are fine; stop before upstream push/PR unless explicitly requested. Commit messages must not include co-author trailers (`Co-authored-by:`, `Co-Authored-By:`, etc.) unless the user explicitly asks. **Mandatory before any upstream-bound commit or “ready” message:** `cargo fmt --all -- --check` must pass; if not, run `cargo fmt --all`, re-check, and include the diff in the same commit.
 5. **No internal plan numbering in drafts** — Upstream-facing title/body must not cite internal plan IDs from local planning docs. Describe scope and follow-ups in plain language only.
 
 **Automation exception** — Only when the user explicitly asks: push the branch and run `gh pr create` with the prepared title/body. Even then, prefer a fork or user-specified remote over opening directly on upstream unless they confirm.
@@ -122,6 +122,7 @@ If touching fatal paths (panic/oops/trap) or logging/console code:
 - Squash unrelated history without asking if the project prefers linear/rebase workflows.
 - Push, commit for upstream, or tell the user the PR is ready without `cargo fmt --all -- --check` passing locally first.
 - Put `cargo fmt` commands, rustfmt check results, or “fmt passed” in PR draft title/body/Test plan (local preflight only; see step 8), unless the user explicitly asks.
+- Add `Co-authored-by:`, `Co-Authored-By:`, or similar co-author attribution trailers to commit messages unless the user explicitly requests them.
 
 ## Common CI failure playbooks
 

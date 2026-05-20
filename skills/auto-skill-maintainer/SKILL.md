@@ -13,7 +13,7 @@ description: "当发现既有 workflow/测试写法不正确或缺失时：自�
 - 构建/测试链路存在“隐式知识”，导致后续容易重复踩坑
 - 为了跑通实验临时做了 workaround，但正确做法应固化为可复用 skill
 - 调试定位出新的常见失败模式/处置流程（例如 CI 资源约束导致的失败），而现有 skills 未覆盖该经验
-- **`pr-workflow` 或跨技能交付策略变更**（例如 fmt 门禁顺序、手动 PR 提交、PR 草稿落点、上游正文规范）— 必须在**同一次 commit** 中同步更新所有受影响的 skills（至少：`experiment-guard`、`completion-examiner`、`report-generator`、`test-authoring`、`harness-overview`），避免知识分叉
+- **`pr-workflow` 或跨技能交付策略变更**（例如 fmt 门禁顺序、手动 PR 提交、PR 草稿落点、上游正文规范、commit message 不含 Co-authored-by）— 必须在**同一次 commit** 中同步更新所有受影响的 skills（至少：`experiment-guard`、`completion-examiner`、`report-generator`、`test-authoring`、`harness-overview`），避免知识分叉
 
 注意：该技能描述的是“必须做什么”，不代表运行环境会自动触发或自动执行。若工具侧不支持自动 hook，请在交付时明确说明已按本技能更新并提交。
 
