@@ -39,7 +39,7 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
    - If CI failed due to infra/resource constraints (e.g. disk-full), add a targeted repro/guardrail (small test or assertion) and rerun the narrowest check that proves the fix.
 4. **E2E test case (mandatory for each PR)** — Every PR must include at least one end-to-end test that exercises the changed behavior (e.g. ArceOS/Starry QEMU case under `test-suit/`, host script with clear pass criteria, or equivalent runner-visible check). Unit tests alone are not sufficient when the change affects runtime, build, or xtask workflows.
    - Add or extend the case in the same PR as the feature/fix (not a follow-up).
-   - In the PR body **Test plan**, give **copy-paste local commands** and **expected correct output** (regex, log snippets, exit code, or “must see / must not see”).
+   - In the PR body **Test plan**, give **copy-paste local commands** and **expected correct output** (regex, log snippets, exit code, or “must see / must not see”). **Do not** list `cargo fmt` / rustfmt commands or fmt pass/fail in the Test plan — formatting is an agent/local preflight gate (step 0 / §3), not upstream-facing PR documentation, unless the user explicitly asks.
    - Example (ArceOS backtrace): `cargo xtask arceos test qemu --arch x86_64 --test-case backtrace-raw-normal` → expect `BACKTRACE_BEGIN` … `BT 0`/`BT 1` with non-zero `ip`, then `=== host backtrace symbolize ===` with demangled function names (when auto-symbolize is enabled).
    - Tell the author explicitly how to run locally and what “green” looks like before opening the PR; if E2E is impossible (hardware-only), document a reproducible substitute and get reviewer agreement in the PR body.
 5. **Artifact inventory** — List newly created files/dirs and what they do. If any were experimental or unrelated, remove them from the branch (stash or separate PR).
@@ -49,7 +49,7 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
    - **Title**: English, imperative, ~72 chars
    - **Body**: Chinese, with sections:
      - Summary (what / why)
-     - Test plan (copy-paste commands + expected output)
+     - Test plan (copy-paste commands + expected output; **exclude** `cargo fmt` / rustfmt — local gate only, unless user explicitly asks)
      - Risk / rollback
      - Issue links if any
    - **No internal plan numbering** — Do not reference local plan IDs (`PR-1`, `PR-4`, `TODO-2`, etc.) from files like `issue-146-backtrace-plan.md` in upstream PR title or body. For follow-up work, use neutral wording (`后续完成`, `follow-up PR`) without numbering.
@@ -63,7 +63,7 @@ The user asks to open a PR, prepare a patch for upstream, or finish a feature br
 This is the default workflow unless the user explicitly requests automated PR creation.
 
 1. **Never open/create a PR on upstream directly** — Do not run `gh pr create`, do not push a branch for PR creation, and do not open a PR on the original/upstream repo. The user verifies locally first and submits manually.
-2. **Always prepare PR content** — Produce an English title and Chinese body (Summary, Test plan with commands + expected output, Risk, issue links) ready to paste when the user opens the PR.
+2. **Always prepare PR content** — Produce an English title and Chinese body (Summary, Test plan with commands + expected output — **no** `cargo fmt` / rustfmt lines unless the user explicitly asks, Risk, issue links) ready to paste when the user opens the PR.
 3. **Draft file location** — Save the draft **outside** the git repository (never inside project folders such as `tgoskits/`). Examples:
    - `/Users/hanjiaxin/Desktop/操作系统/pr-drafts/<repo-or-feature>-pr-draft.md`
    - Workspace root `操作系统/` is acceptable if it is not inside a git-tracked project folder
@@ -95,8 +95,11 @@ If touching fatal paths (panic/oops/trap) or logging/console code:
 - Open or merge a PR without user confirmation when policy requires it.
 - Squash unrelated history without asking if the project prefers linear/rebase workflows.
 - Push, commit for upstream, or tell the user the PR is ready without `cargo fmt --all -- --check` passing locally first.
+- Put `cargo fmt` commands, rustfmt check results, or “fmt passed” in PR draft title/body/Test plan (local preflight only; see step 8), unless the user explicitly asks.
 
 ## Common CI failure playbooks
+
+Agent troubleshooting only — **do not paste** these fmt steps into PR draft Test plan or body unless the user explicitly asks.
 
 ### rustfmt / formatting (`fmt` job)
 

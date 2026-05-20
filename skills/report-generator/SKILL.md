@@ -75,7 +75,7 @@ description: "生成与维护结构化实验/修复报告（概述→环境→�
 - 动机（为什么需要）：
 - 实现要点（可读要点列表，不贴大段代码）：
 - 影响面与风险：
-- 验证（必须可复现）：
+- 验证（必须可复现；**本地报告可写** `cargo fmt` / clippy / 测试命令与结果，**上游 PR 草稿 Test plan 勿写** `cargo fmt` / rustfmt，除非用户明确要求 — 见 `pr-workflow`）：
 
 **Backtrace (#146) PR 草稿** — 正文首行必须为：`Tracking issue: https://github.com/rcore-os/tgoskits/issues/146`
 
@@ -103,7 +103,7 @@ description: "生成与维护结构化实验/修复报告（概述→环境→�
 2. 收集事实：基线 commit、运行参数、失败/成功日志片段、测试命令、对应 PR/CI 链接（如有）。
 3. 生成报告草稿（按模板填满，不留空）。
 4. 如果本次是“新 E2E 跑通”：在报告里新增“测试结果”与可复现命令，并把日志证据保留到 `reports/<topic>-journal.md`（或主报告附录）。
-5. 如果本次涉及 PR：按 PR 拆分列出并写明验证证据；PR 草稿写入 `操作系统/pr-drafts/`（见 §5），上游正文不含内部计划编号；Backtrace 工作引用 Issue #146 tracking line。
+5. 如果本次涉及 PR：按 PR 拆分列出并写明验证证据；PR 草稿写入 `操作系统/pr-drafts/`（见 §5），上游正文不含内部计划编号、**不含** `cargo fmt` Test plan 条目（fmt 仅本地门禁）；Backtrace 工作引用 Issue #146 tracking line。
 6. 如果本次是“运行失败/发现 bug”：必须补齐“现象→根因→修复/绕过→验证/回归”的闭环，并标明后续是否需要单独 PR。
 
 ## CI 失败条目（强制最小字段）

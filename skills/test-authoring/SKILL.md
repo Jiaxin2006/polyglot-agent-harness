@@ -54,5 +54,5 @@ description: "为 tgoskits/ArceOS/StarryOS 编写“可跑通、可维护、可�
 - 新增/修改的测试目录能在至少一个 arch 上跑通
 - `qemu-<arch>.toml` 的 success_regex 能匹配到证据与 `test pass`
 - 给出一条最短可复现命令（build+run 或 test）
-- **PR 绑定测试**：若该用例将随 PR 交付，必须满足 `pr-workflow` 的 E2E 要求（用例与功能同 PR；Test plan 含命令 + 期望输出）
-- **Rust host 代码**：若改动 `scripts/axbuild/` 等 host crate，交付前运行 `cargo fmt --all -- --check`（失败则 `cargo fmt --all` 后 re-check，与功能变更同 commit）
+- **PR 绑定测试**：若该用例将随 PR 交付，必须满足 `pr-workflow` 的 E2E 要求（用例与功能同 PR；Test plan 含 E2E/测试命令 + 期望输出，**不写** `cargo fmt`）
+- **Rust host 代码**：交付前须通过 `cargo fmt --all -- --check`（失败则 `cargo fmt --all` 后 re-check，与功能变更同 commit）— **本地门禁**，不写入 PR 草稿 Test plan
