@@ -51,10 +51,12 @@ From the **active repository root** (the workspace Git root, not a hardcoded pat
 
 ### 4) Delivery / PR gate
 
-Before opening a PR, force-pushing, or running `gh pr create`:
+Before delivery (preparing a PR draft, force-pushing, or any upstream-bound commit):
 
+- **Formatting gate (blocking)** — Run `cargo fmt --all -- --check` and fix until exit 0 before claiming ready or committing for upstream. See `pr-workflow` for the full gate order: **fmt → clippy → tests → E2E**.
+- **Manual PR submission (default)** — Do not run `gh pr create` or push for PR creation on upstream unless the user explicitly asks. Prepare paste-ready title/body and save the draft outside git repos (see `pr-workflow` → `pr-drafts/`).
 - Pause and ask for **explicit approval** unless the user already approved delivery in this session.
-- Summarize: commits, files touched, tests run, and evidence (commands + key log lines).
+- Summarize: commits, files touched, gates run (fmt/clippy/tests/E2E), and evidence (commands + key log lines).
 
 ## Output checklist
 

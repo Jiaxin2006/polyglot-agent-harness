@@ -37,6 +37,11 @@ description: "以考官视角做“任务是否完成”审计：列出验收标
    - 若仍有疑点，回到第 2 步继续循环
    - 只有当“疑点清单为空”时才允许宣称完成
 
+6. **交付门禁（宣称“完成”前必过）**
+   - 必须按 `pr-workflow` 的 **blocking order** 逐项通过：`cargo fmt --all -- --check` → clippy（warnings denied）→ 所改 crate 的单元/集成测试 → E2E（含可复制命令与期望输出）
+   - 宣称完成或准备交付时，**必须同时触发** `pr-workflow`（PR 草稿、手动提交策略）与 `report-generator`（本地报告更新）
+   - 未通过 fmt 或任一 blocking gate 时，不得宣称“100% 完成”或“PR ready”
+
 ## 交付格式（必须包含）
 
 - “是否完成”的结论（是/否），以及对应的验收标准列表

@@ -32,3 +32,5 @@ This repository is a **portable AI development harness** meant to work across:
 | `scripts/install-into-project.sh` | Wire harness into another Git repo |
 
 When unsure which skill applies, prefer **`experiment-guard`** before risky git operations, then **`pr-workflow`** for delivery.
+
+**Delivery policy** — `pr-workflow` owns the full PR gate (fmt → clippy → tests → E2E), manual upstream submission by default, and draft location. Save PR drafts outside git repos at `操作系统/pr-drafts/<repo-or-feature>-pr-draft.md` (not inside consumer projects like `tgoskits/`).

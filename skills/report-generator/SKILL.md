@@ -70,11 +70,14 @@ description: "生成与维护结构化实验/修复报告（概述→环境→�
 
 每个 PR 一段，格式固定：
 
-- PR 标题：
+- PR 标题：（英文，祈使句；报告内可记录，**上游 PR 正文勿引用内部计划编号**如 `PR-1`、`TODO-2`）
+- PR 草稿落点：`操作系统/pr-drafts/<repo-or-feature>-pr-draft.md`（**仓库外**，勿放入 `tgoskits/` 等 git 目录）
 - 动机（为什么需要）：
 - 实现要点（可读要点列表，不贴大段代码）：
 - 影响面与风险：
 - 验证（必须可复现）：
+
+**Backtrace (#146) PR 草稿** — 正文首行必须为：`Tracking issue: https://github.com/rcore-os/tgoskits/issues/146`
 
 ### 6) 调试过程（可选但强烈建议）
 
@@ -100,18 +103,20 @@ description: "生成与维护结构化实验/修复报告（概述→环境→�
 2. 收集事实：基线 commit、运行参数、失败/成功日志片段、测试命令、对应 PR/CI 链接（如有）。
 3. 生成报告草稿（按模板填满，不留空）。
 4. 如果本次是“新 E2E 跑通”：在报告里新增“测试结果”与可复现命令，并把日志证据保留到 `reports/<topic>-journal.md`（或主报告附录）。
-5. 如果本次涉及 PR：按 PR 拆分列出并写明验证证据。
+5. 如果本次涉及 PR：按 PR 拆分列出并写明验证证据；PR 草稿写入 `操作系统/pr-drafts/`（见 §5），上游正文不含内部计划编号；Backtrace 工作引用 Issue #146 tracking line。
 6. 如果本次是“运行失败/发现 bug”：必须补齐“现象→根因→修复/绕过→验证/回归”的闭环，并标明后续是否需要单独 PR。
 
 ## CI 失败条目（强制最小字段）
 
 当触发原因是 “CI 变红/测试跑不过” 时，报告中必须至少包含：
 
-- 失败用例/任务名（例如 `starry qemu findutils`）
+- 失败用例/任务名（例如 `starry qemu findutils`、`fmt`）
 - 关键错误片段（1–5 行，避免整段粘贴）
 - 判断：代码 bug / 环境/资源 / flake（以及证据）
 - 处置：做了哪些修改（文件/思路即可）与对应 commit
 - 结果：哪条验证命令/哪条 CI 重跑能证明问题已缓解
+
+**rustfmt / `fmt` job 失败** — 必须记录：`cargo fmt --all -- --check` 的非零退出、涉及的 `Diff in ...` 路径、本地 `cargo fmt --all` 后是否通过 re-check。常见 gotcha：`axbuild` 中 `let` chain 被 rustfmt 折叠为单行 `if cond && let Some(x) = y {`（见 `scripts/axbuild/src/arceos/test.rs`）。
 
 ## 常见教训（必须记录到报告）
 
