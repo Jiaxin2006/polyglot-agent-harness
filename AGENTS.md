@@ -14,7 +14,7 @@ This file is the **canonical** project guidance for AI coding agents across **Cu
 ## Global rules
 
 1. **Git safety** — Before claiming a branch is “synced”, fetch the configured upstream and merge/rebase per project policy. **Stop on conflicts**; never silently resolve.
-2. **Verification** — Prefer the same environment as CI (often Docker). Do not claim “tests pass” without running the project’s commands or explaining skips.
+2. **Verification** — Prefer the same environment as CI (often Docker). For iterative toolchain-heavy verification, prefer a reusable container or mounted package/toolchain caches over repeated throwaway `docker run --rm` containers unless a clean container is required. Do not claim “tests pass” without running the project’s commands or explaining skips.
 3. **Delivery** — No `gh pr create`, force-push to shared branches, or destructive git without **explicit** user approval when policies require it.
 4. **Paths** — Never hardcode another user’s machine paths. Use `git rev-parse --show-toplevel` and env vars (`POLYGLOT_*`).
 5. **Reporting** — When a run fails, a bug is found/fixed, or a PR is being prepared, invoke `report-generator` and update local report artifacts (evidence included). Do not include `reports/` in upstream PRs unless the user explicitly requests it; keep reports untracked or in a fork-only branch.

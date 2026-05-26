@@ -47,6 +47,10 @@ From the **active repository root** (the workspace Git root, not a hardcoded pat
   - `python3 scripts/docker-check.py`
   - Exit `0` means the daemon answered `docker info`; non-zero means stop and tell the user to start Docker / fix permissions — do not silently fall back to “host-only” tests if the project requires containers.
 - Prefer **containerized** build/test when `POLYGLOT_DOCKER_IMAGE` is set or the project documents a Dev Container / Docker workflow.
+- For Rust or other toolchain-heavy projects, avoid repeatedly using throwaway `docker run --rm` containers for iterative verification when the image installs or syncs toolchains at runtime. Prefer one of:
+  - A named reusable container, for example `docker run -it --name <project>-dev ... <image> bash`, then later `docker start -ai <project>-dev`.
+  - Persistent cache volumes for package/toolchain state, such as rustup and cargo registry/git caches.
+  - If a one-shot `docker run --rm` is still used, mention that toolchain/package downloads may repeat and that failures in those downloads are environment/cache issues unless the build itself fails after dependencies are available.
 - Read-only inspection (search, file reads) may occur on the host; **final** compile/test that gates a claim of “green” should match the project’s canonical environment (often Docker/CI).
 
 ### 4) Delivery / PR gate
